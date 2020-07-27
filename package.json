@@ -1,0 +1,28 @@
+{
+    "name": "recipes-ass3.2-backend",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "nodemon index.js",
+        "debug": "node --nolazy --inspect-brk=localhost:4000 index.js"
+    },
+    "engines": {
+        "node": "12.16.1",
+        "npm": "6.13.4"
+    },
+    "dependencies": {
+        "axios": "^0.19.2",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.19.0",
+        "client-sessions": "^0.8.0",
+        "connect-livereload": "^0.6.1",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "morgan": "^1.10.0",
+        "mssql": "^6.2.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
+}
