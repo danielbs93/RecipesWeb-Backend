@@ -7,6 +7,10 @@ const crud = require("../CRUD/DB_operations");
 
 
 //search recipe by conditional parameters
+/**
+ * Example route: /search/query/pasta/numOfRecipes/15?diet=Vegan,Gluten Free&intolerance=Gluten
+ * Eventually search_params will be resulted: {query,number,instructionsRequired(boolean), opstionsArray[diet,cuisie,intolerance]} 
+ */
 router.get('/search/query/:searchQuery/numOfRecipes/:number', async (req, res, next) => {
     const { searchQuery, number } = req.params;
     //parameters initialization
@@ -42,7 +46,7 @@ router.get('/getRandomRecipes', async (req, res, next) => {
 });
 
 
-//get recipe information
+//get recipe information from spooncular
 router.get('/getRecipe/id/:recipe_id', async (req, res, next) => {
     const { recipe_id } = req.params;
     // console.log()
@@ -63,6 +67,7 @@ router.get('/getRecipe/id/:recipe_id', async (req, res, next) => {
         if (exist.length == 0) {
             await crud.addRecipeToDBFromAPI(recipe_id, recipe_details);
         }
+        // console.log(recipe_details)
         res.status(200).send(recipe_details);
         
     }
@@ -71,6 +76,7 @@ router.get('/getRecipe/id/:recipe_id', async (req, res, next) => {
     }
     // return recipe_details;
 }); 
+
 
 /**
  * 
