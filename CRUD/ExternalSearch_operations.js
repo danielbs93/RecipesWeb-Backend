@@ -138,7 +138,7 @@ exports.getRandomRecipes = async (number) => {
 exports.getRecipeIngredients = async function (recipeID, next) {
     var recipe_ingredients = {};
     await axios.
-    get (`${api_url}/${recipeID}/ingredientWidget.json?apiKey=${api_key}`)//, {
+    get (`${api_url}/${recipeID}/information?apiKey=${api_key}&includeNutrition=false`)//, {
     .then (async (response) => {
         recipe_ingredients = await this.extractRecipeIngredients(response);
     })
@@ -150,12 +150,14 @@ exports.getRecipeIngredients = async function (recipeID, next) {
  * extract relevant data for our website on the ingredients
  */
 exports.extractRecipeIngredients = async function (recipes) {
-    return recipes.data.ingredients.map((recipe) => {
-        const { name, amount } = recipe;
+    return recipes.data.extendedIngredients.map((recipe) => {
+        const { name, measures, image, id } = recipe;
         return {
+        image: image,
+        ingredient_id: id,
         ingredient_name: name,
-        ingredient_evaluate_unit_survey: amount.metric.value,
-        ingredient_amount: amount.metric.unit
+        ingredient_evaluate_unit_survey: measures.metric.unitShort,
+        ingredient_amount: measures.metric.amount
         }
     });
 }
@@ -186,10 +188,12 @@ exports.extractRecipeIngredients = async function (recipes) {
  */
 exports.extractRecipeInstructions = async function (recipes) {
     return await recipes.data.analyzedInstructions[0].steps.map((recipe) => {
-        const { number, step } = recipe;
+        const { number, step, equipment, ingredients } = recipe;
         return {
             stage_number: number,
             stage_description: step,
+            stage_equipment: equipment,
+            stage_ingredients: ingredients,
         }
     });
 }
